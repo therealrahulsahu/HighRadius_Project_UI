@@ -7,9 +7,6 @@ import CardContent from '@material-ui/core/CardContent';
 export class ACard extends Component {
 	constructor(props){
 		super(props)
-		this.state = {
-			value:0
-		}
 	}
 	render() {
 		return (
@@ -18,7 +15,7 @@ export class ACard extends Component {
 					style={{
 						backgroundColor: '#252C48',
 						height:"20vh",
-						width:"20vw",
+						width:"100%",
 						textAlign: "center"
 					}}
 					>
@@ -34,7 +31,7 @@ export class ACard extends Component {
 								color: 'white',
 								fontSize:"8vh"
 							}}
-							>{this.state.value}</Typography>
+							>{this.props.value}</Typography>
 					</CardContent>
 				</Card>
 			</Grid>

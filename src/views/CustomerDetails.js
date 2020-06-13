@@ -67,11 +67,7 @@ class CustomerDetails extends Component {
     };
   }
 
-  componentDidMount() {}
-
   render() {
-    console.log('Data', this.props);
-    const { classes } = this.props;
     return (
       <Grid container
         direction="column"

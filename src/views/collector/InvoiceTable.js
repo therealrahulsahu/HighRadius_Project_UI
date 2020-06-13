@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid'
 import UpperInvoiceTable from './UpperInvoiceTable'
-import LowerInvoiceTable from './LowerInvoiceTable'
 import MiddleInvoiceTable from './MiddleInvoiceTable'
 
 export class InvoiceTable extends Component {
@@ -11,7 +10,7 @@ export class InvoiceTable extends Component {
 				container
 				direction="column"
 				justify="space-around"
-				alignItems="stretch"
+				alignItems="center"
 				style={{
 					backgroundColor: "#252C48",
 					// border:"1px solid blue",
@@ -20,7 +19,6 @@ export class InvoiceTable extends Component {
 				>
 				<UpperInvoiceTable/>
 				<MiddleInvoiceTable/>
-				<LowerInvoiceTable/>
 			</Grid>
 		)
 	}

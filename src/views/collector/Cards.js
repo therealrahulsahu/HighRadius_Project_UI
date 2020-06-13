@@ -1,13 +1,39 @@
 import React, { Component } from 'react';
-import { Card } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import { Typography } from '@material-ui/core';
 import ACard from './ACard';
+import {BASE_URL} from "../../utils/constants";
+import axios from "axios";
 
 export class Cards extends Component {
-	
+	constructor(props) {
+		super(props);
+		this.state = {
+			total_customer:0,
+			total_open_ar:0,
+			average_days_delay:0,
+			total_open_invoices:0
+		}
+	}
+	componentDidMount() {
+		axios(BASE_URL+'card_details')
+			.then(
+				response => {
+					this.setState({
+						total_customer: response.data.total_customer,
+						total_open_ar: response.data.total_open_ar,
+						average_days_delay: response.data.average_days_delay,
+						total_open_invoices: response.data.total_open_invoices
+					})
+					console.log(response.data)
+				}
+			).catch(
+			error => {
+				console.log(error)
+			}
+		)
+	}
+
 	render() {
-		const { classes } = this.props;
 		return (
 			<Grid 
 				container
@@ -19,10 +45,10 @@ export class Cards extends Component {
 				}}
 
 				>
-				<ACard type="Total Customer"/>
-				<ACard type="Total Open AR"/>
-				<ACard type="Average Days Delay"/>
-				<ACard type="Total Invoice Open"/>
+				<ACard type="Total Customer" value={this.state.total_customer}/>
+				<ACard type="Total Open AR" value={this.state.total_open_ar}/>
+				<ACard type="Average Days Delay" value={this.state.average_days_delay}/>
+				<ACard type="Total Invoice Open" value={this.state.total_open_invoices}/>
 				
           	</Grid>
 		);

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import theme from '../src/utils/theme';
-import { withStyles, MuiThemeProvider } from '@material-ui/core/styles';
+import { withStyles} from '@material-ui/core/styles';
 import CollectorDashboard from '../src/views/CollectorDashboard';
 import CustomerDetails from '../src/views/CustomerDetails';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import {ROLL_NUMBER} from '../src/utils/constants';
+import { Provider } from 'react-redux';
+import store from './reducers/store';
 
 const styles = (theme) => ({
   '@global': {
@@ -39,18 +38,18 @@ const styles = (theme) => ({
 });
 class App extends Component {
   render() {
-    console.log('theme', theme);
-    const { classes, user } = this.props;
+    const { classes} = this.props;
     return (
-      // <MuiThemeProvider theme={theme}>
-      <div className={classes.mainBackground}>
-        <Router basename={`/${ROLL_NUMBER}`}>
-          <Switch>
-            <Route exact path="/" component={CollectorDashboard} />
-            <Route path="/customer-dashboard" component={CustomerDetails} />
-          </Switch>
-        </Router>
-      </div>
+      <Provider store={store}>
+        <div className={classes.mainBackground}>
+          <Router basename={`/${ROLL_NUMBER}`}>
+            <Switch>
+              <Route exact path="/" component={CollectorDashboard} />
+              <Route path="/customer-dashboard" component={CustomerDetails} />
+            </Switch>
+          </Router>
+        </div>
+      </Provider>
     );
   }
 }

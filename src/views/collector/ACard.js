@@ -5,8 +5,22 @@ import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 
 export class ACard extends Component {
-	constructor(props){
-		super(props)
+	
+	check_initials(value, initials){
+		value = parseInt(value)
+		if(initials === "money"){
+			if(value%1000000>0){
+				return("$"+Math.round(value/1000000)+"M")
+			}else if(value%1000>0){
+				return("$"+Math.round(value/1000)+"K")
+			}else{
+				return("$"+value)
+			}
+		}else if(initials === "days"){
+			return(""+value+" Days")
+		}else{
+			return(""+value)
+		}
 	}
 	render() {
 		return (
@@ -29,9 +43,9 @@ export class ACard extends Component {
 						<Typography
 							style={{
 								color: 'white',
-								fontSize:"8vh"
+								fontSize:"6vh"
 							}}
-							>{this.props.value}</Typography>
+							>{this.check_initials(this.props.value, this.props.initials)}</Typography>
 					</CardContent>
 				</Card>
 			</Grid>

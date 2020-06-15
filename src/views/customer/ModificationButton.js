@@ -10,7 +10,7 @@ export class ModificationButton extends Component {
 				alignItems="center"
 				style={{
 					width:"30%",
-					height:"100%",
+					height:"100%"
 					// border:"1px dotted red",
 				}}
 				>
@@ -19,7 +19,7 @@ export class ModificationButton extends Component {
 							marginLeft:'10px'
 						}}
 						>Modify</Button>
-					<Button variant='contained' color="primary"
+					<Button variant='contained' color="secondary"
 						style={{
 							marginLeft:'10px'
 						}}

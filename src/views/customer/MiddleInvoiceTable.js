@@ -4,6 +4,13 @@ import axios from 'axios';
 import TablePagination from '@material-ui/core/TablePagination';
 import MyTable from "./MyTable";
 import {BASE_URL} from "../../utils/constants";
+import {connect} from 'react-redux';
+
+const mapStateToProps = state => {
+	return{
+		userNumber: state.userLogin.userNumber
+	}
+}
 
 const columnNames = [
 	{id:"company_id", name:"Company Id", minWidth: 80},
@@ -29,15 +36,10 @@ const columnNames = [
 	{id:"document_creation_date", name: "Document Create Date", minWidth: 150},
 	{id:"actual_open_amount", name: "Actual Amount Outstanding", minWidth: 200},
 	{id:"invoice_age", name: "Age of Invoice", minWidth: 100},
-	{id:"invoice_amount_doc_currency", name: "Invoice Currency", minWidth: 110},
-	{id:"predicted_payment_type", name: "Predicted Payment Type", minWidth: 160},
-	{id:"predicted_amount", name: "Predicted_amount", minWidth: 100}
+	{id:"invoice_amount_doc_currency", name: "Invoice Currency", minWidth: 110}
 ]
 
 export class MiddleInvoiceTable extends Component {
-	result;
-	tuple;
-	output;
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -50,30 +52,33 @@ export class MiddleInvoiceTable extends Component {
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if(prevState.limit!==this.state.limit || prevState.offset!==this.state.offset){
-			//console.log(''+this.state.limit+' '+this.state.offset)
-			axios(BASE_URL+'user_open_invoice_fetch_by_limit_and_offset?limit='+
-				this.state.limit+'&offset='+(this.state.limit * this.state.offset))
-				.then(
-					response => {
-						this.setState({
-							tuples: response.data
-						})
-						//console.log(response.data)
+		if(this.props.userNumber > 0){
+			if(prevState.limit!==this.state.limit || prevState.offset!==this.state.offset){
+				//console.log(''+this.state.limit+' '+this.state.offset)
+				axios(BASE_URL+'user_open_invoice_fetch_by_limit_and_offset?limit='+
+					this.state.limit+'&offset='+(this.state.limit * this.state.offset)+"&cs_number="+this.props.userNumber)
+					.then(
+						response => {
+							this.setState({
+								tuples: response.data
+							})
+							//console.log(response.data)
+						}
+					).catch(
+					error => {
+						console.log(error)
 					}
-				).catch(
-				error => {
-					console.log(error)
-				}
-			)
+				)
+			}
 		}
 	}
 
 
 	componentDidMount() {
 		//console.log(this.state.limit)
-		axios(BASE_URL+'user_open_invoice_fetch_by_limit_and_offset?limit='+
-			this.state.limit+'&offset='+(this.state.limit * this.state.offset))
+		if(this.props.userNumber > 0){
+			axios(BASE_URL+'user_open_invoice_fetch_by_limit_and_offset?limit='+
+			this.state.limit+'&offset='+(this.state.limit * this.state.offset)+"&cs_number="+this.props.userNumber)
 			.then(
 				response => {
 					this.setState({
@@ -85,20 +90,22 @@ export class MiddleInvoiceTable extends Component {
 			error => {
 				console.log(error)
 			}
-		)
-		axios(BASE_URL+'all_open_invoices')
-			.then(
-				response => {
-					this.setState({
-						total_data: response.data.open_invoices
-					})
-					//console.log(response.data)
+			)
+			axios(BASE_URL+'all_open_invoices?cs_number='+this.props.userNumber)
+				.then(
+					response => {
+						this.setState({
+							total_data: response.data.open_invoices
+						})
+						//console.log(response.data)
+					}
+				).catch(
+				error => {
+					console.log(error)
 				}
-			).catch(
-			error => {
-				console.log(error)
-			}
-		)
+			)
+		}
+		
 	}
 
 	render() {
@@ -108,14 +115,14 @@ export class MiddleInvoiceTable extends Component {
 				alignItems='stretch'
 				style={{
 				backgroundColor:'#252C48',
-				height:'85%',
-				border:'3px solid #252C48',
+				height:'83%',
+				//border:'3px solid #252C48',
 				width:'100%'
 			}}>
 				<GridList container
 					style={{
 						width:'100%',
-						height:'295px',
+						height:'410px',
 						//border:'1px solid red'
 					}}
 				>
@@ -156,4 +163,5 @@ export class MiddleInvoiceTable extends Component {
 
 	}
 }
-export default MiddleInvoiceTable
+
+export default connect(mapStateToProps)(MiddleInvoiceTable)

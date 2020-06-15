@@ -1,5 +1,15 @@
 import React, { Component } from 'react'
 import { Grid, Typography } from '@material-ui/core'
+import {connect} from 'react-redux';
+import {BASE_URL} from "../../utils/constants";
+import axios from "axios";
+
+const mapStateToProps = state => {
+	return{
+		userNumber: state.userLogin.userNumber
+	}
+}
+
 
 export class CounterLabels extends Component {
 	constructor(props){
@@ -9,6 +19,24 @@ export class CounterLabels extends Component {
 			open_invoices:0
 		}
 	}
+	componentDidMount(){
+		console.log(this.props.userNumber)
+		axios(BASE_URL+'get_customer_name_by_customer_number?cs_number='+this.props.userNumber)
+			.then(
+				response => {
+					this.setState({
+						open_amount: response.data.open_amount,
+						open_invoices: response.data.open_invoices
+					})
+					console.log(response.data)
+				}
+			).catch(
+			error => {
+				console.log(error)
+			}
+		)
+	}
+
 	render() {
 		return (
 			<Grid container
@@ -59,4 +87,4 @@ export class CounterLabels extends Component {
 	}
 }
 
-export default CounterLabels
+export default connect(mapStateToProps)(CounterLabels)

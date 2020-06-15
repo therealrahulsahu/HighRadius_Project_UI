@@ -8,8 +8,6 @@ export class MyTableRow extends Component{
         super(props);
         this.state = {
             check_box: false,
-            pred_type: "unava",
-            pred_amount: -1,
             pk_id:this.props.columns.pk_id
         }
     }
@@ -66,24 +64,6 @@ export class MyTableRow extends Component{
     onClickCheckBox = (event) => {
         console.log(this.state.pk_id)
     }
-
-    getPredictedPaymentType = (state) => {
-        if(state === "part"){
-            return("partially paid")
-        }else if(state === "full"){
-            return("Fully Paid")
-        }else{
-            return("");
-        }
-    }
-
-    getPredictedAmount = (state) => {
-        if(state > 0){
-            return(""+this.state.amount)
-        }else{
-            return("");
-        }
-    }
     
 
     render() {
@@ -101,9 +81,6 @@ export class MyTableRow extends Component{
                         );
                     })
                 }
-
-                <TableCell>{this.getPredictedPaymentType(this.state.pred_type)}</TableCell>
-                <TableCell>{this.getPredictedAmount(this.state.pred_amount)}</TableCell>
             </TableRow>
         )
     }

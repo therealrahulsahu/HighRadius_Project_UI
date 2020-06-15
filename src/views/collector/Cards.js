@@ -24,7 +24,7 @@ export class Cards extends Component {
 						average_days_delay: response.data.average_days_delay,
 						total_open_invoices: response.data.total_open_invoices
 					})
-					console.log(response.data)
+					//console.log(response.data)
 				}
 			).catch(
 			error => {
@@ -45,10 +45,10 @@ export class Cards extends Component {
 				}}
 
 				>
-				<ACard type="Total Customer" value={this.state.total_customer}/>
-				<ACard type="Total Open AR" value={this.state.total_open_ar}/>
-				<ACard type="Average Days Delay" value={this.state.average_days_delay}/>
-				<ACard type="Total Invoice Open" value={this.state.total_open_invoices}/>
+				<ACard type="Total Customer" value={this.state.total_customer} initials=""/>
+				<ACard type="Total Open AR" value={this.state.total_open_ar} initials="money"/>
+				<ACard type="Average Days Delay" value={this.state.average_days_delay} initials="days"/>
+				<ACard type="Total Invoice Open" value={this.state.total_open_invoices} initials=""/>
 				
           	</Grid>
 		);

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid';
 import Freda from '../../assets/FredaButton.png';
 import { Typography } from '@material-ui/core';
-import { SvgIcon, Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import AppLogo from '../../assets/companyLogo.svg';
 
 
@@ -11,7 +11,7 @@ import AppLogo from '../../assets/companyLogo.svg';
 
 export class Header extends Component {
 	render() {
-		const { classes } = this.props;
+		
 		return (
 			<Grid container
 				style={{
@@ -28,7 +28,7 @@ export class Header extends Component {
 						// border:"1px solid white"
 					}}
 					>
-					<img height="30px" width="30px" src={AppLogo}/>
+					<img height="30px" width="30px" src={AppLogo} alt="$$$$"/>
 				</Grid>
 
 				<Grid container
@@ -53,7 +53,7 @@ export class Header extends Component {
 					}}
 				>
 					<Button>
-						<img height="25" width="130" src={Freda}/>
+						<img height="25" width="130" src={Freda} alt="#####"/>
 					</Button>
 				</Grid>
           </Grid>

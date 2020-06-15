@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Button } from '@material-ui/core'
+import { Grid} from '@material-ui/core'
 import CounterLabels from './CounterLabels'
 import ModificationButton from './ModificationButton'
 

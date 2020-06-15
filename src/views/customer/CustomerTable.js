@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
 import UpperTable from './UpperTable';
-import MiddleTable from './MiddleTable';
-import LowerTable from './LowerTable';
+import MiddleInvoiceTable from './MiddleInvoiceTable';
 
 export class CustomerTable extends Component {
 	render() {
@@ -13,11 +12,13 @@ export class CustomerTable extends Component {
 				alignItems="stretch"
 				style={{
 				height:"90%",
-				width:"100%"}}
+				width:"100%",
+				//border:"1px solid white"
+			}}
 			  >
 				<UpperTable/>
-        		<MiddleTable/>
-        		<LowerTable/>
+				<MiddleInvoiceTable/>
+				
 			</Grid>
 		)
 	}

@@ -42,7 +42,9 @@ export class UpperInvoiceTable extends Component {
 						style={{
 							height:'70%'
 						}}
-					variant="contained">
+						variant="contained"
+						color="secondary"
+					>
 						Predict
 					</Button>
 				</Grid>

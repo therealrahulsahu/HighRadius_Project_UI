@@ -9,9 +9,9 @@ export class ACard extends Component {
 	check_initials(value, initials){
 		value = parseInt(value)
 		if(initials === "money"){
-			if(value%1000000>0){
+			if(value/1000000>1){
 				return("$"+Math.round(value/1000000)+"M")
-			}else if(value%1000>0){
+			}else if(value/1000>1){
 				return("$"+Math.round(value/1000)+"K")
 			}else{
 				return("$"+value)
@@ -22,6 +22,7 @@ export class ACard extends Component {
 			return(""+value)
 		}
 	}
+
 	render() {
 		return (
 			<Grid>
@@ -29,21 +30,23 @@ export class ACard extends Component {
 					style={{
 						backgroundColor: '#252C48',
 						height:"20vh",
-						width:"100%",
+						width:"24vw",
 						textAlign: "center"
 					}}
 					>
 					<CardContent>
 						<Typography
 							style={{
-								color: 'white',
-								fontSize:"4vh",
+								color: 'grey',
+								fontSize:"2.8vh",
+								marginBottom: '1.5vw'
 							}}
 							>{this.props.type}</Typography>
 						<Typography
+							autoid={this.props.useId}
 							style={{
 								color: 'white',
-								fontSize:"6vh"
+								fontSize:"4vh"
 							}}
 							>{this.check_initials(this.props.value, this.props.initials)}</Typography>
 					</CardContent>

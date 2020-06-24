@@ -42,7 +42,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div className={classes.mainBackground}>
-          <Router basename={`/${ROLL_NUMBER}`}>
+          <Router basename={ROLL_NUMBER}>
             <Switch>
               <Route exact path="/" component={CollectorDashboard} />
               <Route path="/customer-dashboard" component={CustomerDetails} />

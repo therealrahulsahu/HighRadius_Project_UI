@@ -9,7 +9,7 @@ export class InvoiceTable extends Component {
 			<Grid
 				container
 				direction="column"
-				justify="space-around"
+				justify="space-between"
 				alignItems="center"
 				style={{
 					backgroundColor: "#252C48",

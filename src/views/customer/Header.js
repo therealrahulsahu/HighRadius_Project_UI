@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Grid, Typography, Button } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
-import Freda from '../../assets/FredaButton.png';
+import { removeAllRow } from "../../reducers";
+import {ReactComponent as Freda } from '../../assets/john.svg';
 import { removeUser } from '../../reducers';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {BASE_URL} from "../../utils/constants";
 import axios from "axios";
+import ProfessorBot from '../ProfessorBot';
 
 
 const mapStateToProps = state => {
@@ -18,7 +19,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-	  removeUser: () => dispatch(removeUser())
+	  removeUser: () => dispatch(removeUser()),
+	  removeAllRow: () => dispatch(removeAllRow())
 	}
 }
 
@@ -30,6 +32,7 @@ export class Header extends Component {
 			cs_number: this.props.userNumber,
 			cs_name:  0
 		}
+		this.bot_ref = React.createRef();
 	}
 	
 	componentDidMount(){
@@ -51,6 +54,7 @@ export class Header extends Component {
 
 	handleBackButton = (event) => {
 		this.props.removeUser();
+		this.props.removeAllRow();
 		this.props.history.push('/');
 	}
 	
@@ -62,64 +66,95 @@ export class Header extends Component {
 				alignItems="stretch"
 				style={{
 					height:"10%",
-					width:'100%'
+					width:'100vw'
 					// border:"1px dotted white"
 				  }}
 				>
 				<Grid container
 					direction="row"
+					alignItems="flex-start"
 					style={{
-						width:"40%",
-						height:"100%"
+						width:"30vw",
+						height:"100%",
+						//border:'1px solid white'
 					}}>
-					<Grid container
+					<Grid item
 						style={{
-							// border:'1px solid white',
+							//border:'1px dotted white',
 							height:'100%',
-							width:'30%'
+							width:'4vw'
 							}}>
-						<ArrowBackIcon onClick={this.handleBackButton} style={{height:'90%', width:'90%', color:'red', cursor:'pointer'}}/>
+						<ArrowBackIcon onClick={this.handleBackButton} style={{height:'10vh', width:'4vw', color:'white', cursor:'pointer'}} autoid="navigation-back-button"/>
 					</Grid>
 					<Grid container
 						direction="column"
 						justify="center"
-						alignItems="center"
+						alignItems="stretch"
 						style={{
 							height:'100%',
-							// border:'1px solid white',
-							width:'69%'
+							//border:'1px solid red',
+							width:'25.8vw'
 						}}
 						>
-						<Typography variant='h5' 
+						<Typography
 							style={{
 								color:'white',
-								height:'40%'
+								height:'40%',
+								fontSize:'1.5vw',
+								marginLeft:'1vw',
+								marginTop:'1vh'
 							}}
+							autoid="customer-name"
 							>{this.state.cs_name}</Typography>
-						<Typography variant='h6'
+						<Typography
 							style={{
 								color:'white',
-								height:'60%'
+								height:'40%',
+								fontSize:'2vh',
+								marginLeft:'1vw'
 							}}
+							autoid="customer-number"
 							>{this.props.userNumber}</Typography>
 					</Grid>
 				</Grid>
-				
-				<Grid container
-					direction='row'
-					justify='center'
-					alignItems='center'
-					style={{
-						width:"15%",
-						height:"100%",
-						//border:'1px solid yellow'
-					}}
-					>
-					<Button><img src={Freda} alt="#####"/></Button>
+				<Grid item style={{width:'14vw' }}>
+					<Typography 
+						align="center"
+						style={{
+							color: "white",
+							backgroundColor: "#fc7500",
+							height: "3.5vh",
+							paddingLeft:'8px',
+							paddingRight:'8px',
+							borderRadius:'0 0 10px 10px',
+							marginRight:'1vw',
+							fontSize:'1vw'
+						}}>
+						Receivables DashBoard
+					</Typography>
 				</Grid>
-
+				<Button
+					style={{
+					color: "white",
+					backgroundColor: "#fc7500",
+					height: "5vh",
+					width: "12vw",
+					borderRadius: "20px",
+					marginTop:"2vh",
+					marginRight:"1vw"
+					}}
+					onClick={this.handleOpenBot}
+					variant="contained"
+					>
+					<Typography style={{fontSize: '1vw'}}>Professor</Typography>
+					<Freda style={{ height: "5vh", width: "5vh", marginRight: '-3vw'}} />
+				</Button>
+				<ProfessorBot ref={this.bot_ref}/>
 			</Grid>
 		)
+	}
+	handleOpenBot = () => {
+		this.bot_ref.current.handleOpen();
 	}
 }
 

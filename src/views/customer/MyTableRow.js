@@ -2,13 +2,32 @@ import React, {Component} from "react";
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
 import TableCell from "@material-ui/core/TableCell";
+import { addARow, removeARow, removeAllRow } from "../../reducers";
+import {connect} from 'react-redux';
+
+const mapStateToProps = state => {
+	return{
+        tableRows: state.rowDataReducer.tableRows,
+        tableSize: state.rowDataReducer.size,
+		updateCount: state.updateCounterReducer.count
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+      addARow: payload => dispatch(addARow(payload)),
+      removeARow: payload => dispatch(removeARow(payload)),
+      removeAllRow: () => dispatch(removeAllRow())
+	}
+}
 
 export class MyTableRow extends Component{
     constructor(props) {
         super(props);
         this.state = {
             check_box: false,
-            pk_id:this.props.columns.pk_id
+            row_data: this.props.columns,
+            pk_id: this.props.columns.pk_id
         }
     }
 
@@ -47,37 +66,47 @@ export class MyTableRow extends Component{
         this.output.push(this.checkForNull(tuple, "actual_open_amount"))
         this.output.push(this.checkForNull(tuple, "invoice_age"))
         this.output.push(this.checkForNull(tuple, "invoice_amount_doc_currency"))
-        this.output.push(this.checkForNull(tuple, "predicted_payment_type"))
-        this.output.push(this.checkForNull(tuple, "predicted_amount"))
 
         return this.output
     }
 
     componentDidUpdate(prevProps, prevState, snapshot){
-        if(prevState.pk_id !== this.props.columns.pk_id){
+        if(prevProps.selAll !== this.props.selAll){
+            this.toggleCheckBox(this.props.selAll);
+        }
+        if(prevProps.updateCount !== this.props.updateCount){
             this.setState({
-                pk_id:this.props.columns.pk_id
+                check_box: false
             })
         }
     }
 
     onClickCheckBox = (event) => {
-        console.log(this.state.pk_id)
+        this.toggleCheckBox(event.target.checked);
     }
     
+    toggleCheckBox = (condition) => {
+        this.setState({
+            check_box: condition
+        })
+        if(condition){
+            this.props.addARow(this.props.columns);
+        }else{
+            this.props.removeARow(this.state.pk_id);
+        }
+    }
 
     render() {
         
         return(
             <TableRow>
-                <TableCell style={{color:"white", backgroundColor:"#1B1F38"}}>
-                    <Checkbox onChange={this.onClickCheckBox} color='default' style={{color:"white"}}/>
+                <TableCell style={{color:"white", backgroundColor:"#1B1F38", height:"0.8vh"}}>
+                    <Checkbox checked={this.state.check_box} onChange={this.onClickCheckBox} color='default' style={{color:"white", height:"0.8vh"}}/>
                 </TableCell>
-                
                 {
                     this.get_full_row(this.props.columns).map((column, index) => {
                         return (
-                            <TableCell key={index} style={{color:"white", backgroundColor:"#1B1F38"}}>{column}</TableCell>
+                            <TableCell key={index} style={{color:"white", backgroundColor:"#1B1F38", height:"0.8vh"}}>{column}</TableCell>
                         );
                     })
                 }
@@ -86,4 +115,4 @@ export class MyTableRow extends Component{
     }
 }
 
-export default MyTableRow
+export default connect(mapStateToProps, mapDispatchToProps)(MyTableRow)

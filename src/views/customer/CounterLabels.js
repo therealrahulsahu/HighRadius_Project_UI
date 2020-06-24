@@ -6,10 +6,15 @@ import axios from "axios";
 
 const mapStateToProps = state => {
 	return{
-		userNumber: state.userLogin.userNumber
+		userNumber: state.userLogin.userNumber,
+		updateCount: state.updateCounterReducer.count
 	}
 }
 
+const mapDispatchToProps = dispatch => {
+	return {
+	}
+}
 
 export class CounterLabels extends Component {
 	constructor(props){
@@ -19,8 +24,7 @@ export class CounterLabels extends Component {
 			open_invoices:0
 		}
 	}
-	componentDidMount(){
-		console.log(this.props.userNumber)
+	nameQuery = () => {
 		axios(BASE_URL+'get_customer_name_by_customer_number?cs_number='+this.props.userNumber)
 			.then(
 				response => {
@@ -28,7 +32,7 @@ export class CounterLabels extends Component {
 						open_amount: response.data.open_amount,
 						open_invoices: response.data.open_invoices
 					})
-					console.log(response.data)
+					//console.log(response.data)
 				}
 			).catch(
 			error => {
@@ -36,48 +40,60 @@ export class CounterLabels extends Component {
 			}
 		)
 	}
+	componentDidMount(){
+		//console.log(this.props.userNumber)
+		this.nameQuery();
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if(prevProps.updateCount !== this.props.updateCount){
+			this.nameQuery();
+		}
+	}
 
 	render() {
 		return (
 			<Grid container
 					style={{
-						width:'30%',
+						width:'50vw',
 						height:'100%',
 						// border:"1px dotted red"
 					}}
 					direction="row"
-					justify="space-between"
+					justify="flex-end"
 					alignItems="center"
 					>
 					<Grid container
 						direction='column'
 						alignItems='center'
+						justify='center'
 						style={{
 							// border:"1px dotted white",
-							width:'50%',
+							width:'15vw',
 							height:'100%'
 						}}
 					>	
-						<Typography variant='h5' style={{color:"white"}}>
+						<Typography style={{color:"white", fontSize:'1.5vw'}} autoid="total-open-invoices-customer">
 							{this.state.open_invoices}
 						</Typography>
-						<Typography variant='h6' style={{color:"white"}}>
+						<Typography style={{color:"white", fontSize:'1.5vw'}}>
 							Total Open Invoices
 						</Typography>
 					</Grid>
 					<Grid container
 						direction='column'
 						alignItems='center'
+						justify='center'
 						style={{
 							// border:"1px dotted white",
-							width:'50%',
+							width:'15vw',
 							height:'100%',
 						}}
 					>
-						<Typography variant='h5' style={{color:"white"}}>
+						<Typography  style={{color:"white", fontSize:'1.5vw'}} autoid="total-open-amount-customer">
 							${this.state.open_amount}
 						</Typography>
-						<Typography variant='h6' style={{color:"white"}}>
+						<Typography style={{color:"white", fontSize:'1.5vw'}}>
 							Total Open Amount
 						</Typography>
 					</Grid>
@@ -87,4 +103,4 @@ export class CounterLabels extends Component {
 	}
 }
 
-export default connect(mapStateToProps)(CounterLabels)
+export default connect(mapStateToProps, mapDispatchToProps)(CounterLabels)

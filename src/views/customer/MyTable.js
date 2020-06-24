@@ -13,24 +13,31 @@ export class MyTable extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            checkboxChe: false
         }
+    }
+
+    handleCheckBoxChange = (event) => {
+        this.setState({
+            checkboxChe: event.target.checked
+        })
     }
 
     render(){
         //console.log(this.props.row_data.tuples)
         return(
-            <TableContainer style={{width:'100%', height:'100%'}}>
+            <TableContainer style={{width:'100%', height:'100%'}} autoid="invoice-table-customer">
                 <Table  stickyHeader aria-label="sticky table" size='small'>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{minWidth:2, backgroundColor:"#1B1F38"}}>
-                                <Checkbox color='default' style={{color:'white'}}>
+                            <TableCell style={{minWidth:2, backgroundColor:"#1B1F38", height:"2.5vh"}}>
+                                <Checkbox checked={this.state.checkboxChe} color='default' style={{color:'white', height:"2.5vh"}} onChange={this.handleCheckBoxChange}>
                                 </Checkbox>
                             </TableCell>
                             {this.props.columns.map((col) => (
                                 <TableCell
                                     key={col.id}
-                                    style={{color:"white", backgroundColor:"#1B1F38",minWidth:col.minWidth}}
+                                    style={{color:"white", backgroundColor:"#1B1F38",minWidth:col.minWidth, height:"2.5vh"}}
                                 >
                                     {col.name}
                                 </TableCell>
@@ -39,7 +46,7 @@ export class MyTable extends Component{
                     </TableHead>
                     <TableBody>
                         {
-                            this.props.row_data.tuples.map(cols => <MyTableRow key={cols.pk_id} columns={cols} />)
+                            this.props.row_data.map(cols => <MyTableRow key={cols.pk_id} columns={cols} selAll={this.state.checkboxChe}/>)
                         }
                     </TableBody>
                 </Table>

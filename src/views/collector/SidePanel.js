@@ -10,7 +10,7 @@ export class SidePanel extends Component {
 				container
 				direction='column'
 				justify='space-around'
-				alignItems='strech'
+				alignItems='stretch'
 				// border:'1px dotted red'
 				style={{
 					width:"30%"

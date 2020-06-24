@@ -1,0 +1,2 @@
+export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const REMOVE_ALL_MESSAGE = 'REMOVE_ALL_MESSAGE';
